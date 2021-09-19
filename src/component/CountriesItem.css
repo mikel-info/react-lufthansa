@@ -1,0 +1,12 @@
+img {
+  height: 165.66px;
+}
+.cards__item__img {
+  
+    object-fit: cover;
+    transition: all 0.2s linear;
+  }
+
+  .cards__item__img:hover {
+    transform: scale(1.3);
+  }

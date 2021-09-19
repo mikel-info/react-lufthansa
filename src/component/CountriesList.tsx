@@ -9,7 +9,6 @@ function CountriesList(props:any) {
                  {props.countries.map((countrie:any) => 
                      <CountriesItem 
                         key={countrie.id} 
-                        id={countrie.id} 
                         shteti={countrie.name}
                         flag={countrie.flag} 
                         kryqeyteti={countrie.capital} 
