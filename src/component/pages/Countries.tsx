@@ -3,6 +3,7 @@ import React from 'react';
 import CountriesList from '../CountriesList';
 // import FilterRegion from "../FilterRegion";
 
+
 import '../FilterRegion.css';
 
 
@@ -15,6 +16,7 @@ function Countries (props : any){
     const [searchParam] = useState(["name"]);
     const [searchName, setSearchName] = useState("");
     const [filterParam, setFilterParam] = useState("All");
+
 
     
     useEffect(() => {
@@ -45,7 +47,7 @@ function Countries (props : any){
 
       function search(loadedCountries : any) {
         return loadedCountries.filter((item : any) => {
-          if (item.region == filterParam) {
+          if (item.region === filterParam) {
             return searchParam.some((newItem) => {
                 return (
                     item[newItem]
@@ -54,7 +56,7 @@ function Countries (props : any){
                         .indexOf(searchName.toLowerCase()) > -1
                 );
             });
-          } else if (filterParam == "All")  {
+          } else if (filterParam === "All")  {
               return searchParam.some((newItem) => {
                 return (
                     item[newItem]
@@ -73,7 +75,8 @@ function Countries (props : any){
 
     
 
-      
+    
+    
 
       // if(loading){
       //   return (
@@ -105,7 +108,9 @@ function Countries (props : any){
             </div>
           
         <ul>
+          
             <CountriesList countries={search(loadedCountries)}  />
+          
         </ul>
     </section>
 }

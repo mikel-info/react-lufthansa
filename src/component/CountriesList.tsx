@@ -8,16 +8,12 @@ function CountriesList(props:any) {
              <div className="row" style={{margin: '2%'}}>
                  {props.countries.map((countrie:any) => 
                      <CountriesItem 
-                        key={countrie.id} 
-                        shteti={countrie.name}
-                        flag={countrie.flag} 
-                        kryqeyteti={countrie.capital} 
-                        rajoni={countrie.region}
-                        popullsia={countrie.population}/>)}
+                        country = {countrie}
+                         key={countrie.id} 
+                       />)}
              </div>
         </ul>
     </div>       
-           
     )
 }
 
