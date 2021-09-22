@@ -8,6 +8,7 @@ import styled, { ThemeProvider } from "styled-components";
 
 const StyledApp = styled.div`
   color: ${(props) => props.theme.fontColor};
+  h1: ${(props) => props.theme.h1};
 `;
 
 function App() {

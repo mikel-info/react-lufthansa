@@ -7,11 +7,17 @@ export const lightTheme = {
 
 export const darkTheme = {
   body: "#000",
-  fontColor: "#fff",
+  fontColor: 'grey',
 };
 
 export const GlobalStyles = createGlobalStyle`
 	body {
 		background-color: ${(props : any) => props.theme.body};
+   
 	}
+  h1 {
+    ${(props : any) => props.theme.h1}
+  }
+
+ 
 `;
