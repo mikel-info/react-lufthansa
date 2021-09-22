@@ -1,5 +1,6 @@
 img {
   height: 165.66px;
+  padding: '3px';
 }
 .cards__item__img {
   
@@ -10,3 +11,8 @@ img {
   .cards__item__img:hover {
     transform: scale(1.3);
   }
+  
+  li{
+    list-style-type: none;
+  }
+  

@@ -9,8 +9,9 @@ function CountriesList(props:any) {
                  {props.countries.map((countrie:any) => 
                      <CountriesItem 
                         country = {countrie}
-                         key={countrie.id} 
-                       />)}
+                        key={countrie.id} 
+                    />
+                    )}
              </div>
         </ul>
     </div>       

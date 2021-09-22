@@ -1,51 +1,96 @@
 import { useState, useEffect } from "react";
-import React from 'react';
 import CountriesList from '../CountriesList';
-// import FilterRegion from "../FilterRegion";
+import { FcGlobe } from 'react-icons/fc';
+import { FaArrowCircleUp } from 'react-icons/fa'
+import { CgSmileSad } from 'react-icons/cg';
+import data from '../../data/countries.json';
 
 
-import '../FilterRegion.css';
+import '../Countries.css';
+import '../../App.css'
 
 
 
 
-function Countries (props : any){
-    // const [loading, setLoading] = useState(true);
+function Countries (){
+    const [isVisible, setIsVisible] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [loadedCountries, setLoadedCountries] = useState([])
-    // const [regionCountries, setRegionCountries] = useState('');
     const [searchParam] = useState(["name"]);
     const [searchName, setSearchName] = useState("");
-    const [filterParam, setFilterParam] = useState("All");
+    const [filterParam, setFilterParam] = useState("All Region");
+   
+
+  // Show button when page is scorlled upto given distance
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 200) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
 
 
+  // Set the top cordinate to 0
+  // make scrolling smooth
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+  
+function getData() {
+  const countries : any = [];
     
+      for (const key in data) {
+        const countrie = {
+          id: key,
+          ...data[key]
+        };
+        countries.push(countrie);
+      }
+
+    setLoading(false);
+    setLoadedCountries(countries);
+}
+  
+
+
     useEffect(() => {
-        // setLoading(true);
-        fetch(
-          'https://restcountries.eu/rest/v2/all'
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            const countries : any = [];
+        setLoading(true);
+        // fetch(
+        //   'https://countries-bcd24-default-rtdb.firebaseio.com/countries.json'
+        // )
+        //   .then((response) => {
+        //     return response.json();
+        //   })
+        //   .then((data) => {
+        //     const countries : any = [];
     
-            for (const key in data) {
-              const countrie = {
-                id: key,
-                ...data[key]
-              };
-              countries.push(countrie);
-            }
+        //     for (const key in data) {
+        //       const countrie = {
+        //         id: key,
+        //         ...data[key]
+        //       };
+        //       countries.push(countrie);
+        //     }
     
-          // setLoading(false);
-          setLoadedCountries(countries);
-        });
+        //   setLoading(false);
+        //   setLoadedCountries(countries);
+        // });
+
+        getData();
+
+        window.addEventListener("scroll", toggleVisibility);
+        return () =>{
+          window.removeEventListener('scroll', toggleVisibility)
+        }
       }, [])
 
 
 
-      function search(loadedCountries : any) {
+      function search(loadedCountries : any) {      
         return loadedCountries.filter((item : any) => {
           if (item.region === filterParam) {
             return searchParam.some((newItem) => {
@@ -56,7 +101,7 @@ function Countries (props : any){
                         .indexOf(searchName.toLowerCase()) > -1
                 );
             });
-          } else if (filterParam === "All")  {
+          } else if (filterParam === "All Region")  {
               return searchParam.some((newItem) => {
                 return (
                     item[newItem]
@@ -71,47 +116,52 @@ function Countries (props : any){
 
     const filterChangeHandler = (e : any) =>{
       setFilterParam(e.target.value);
+    
+
     };
 
+    const searchNameHandler = (e : any) =>{
+      setSearchName(e.target.value)
+    }
     
-
-    
-    
-
-      // if(loading){
-      //   return (
-      //     <section>
-      //       <p>Loading...</p>
-      //     </section>
-      //   )
-      // }
+      if(loading){
+        return (
+          <section className="loader"></section>
+        )
+      }
   
     return <section>
-        <h1 style={{textAlign:'center', marginTop:'2%'}}> All Countries</h1>
+        {isVisible && <button className={'onTop'} onClick={scrollToTop}><FaArrowCircleUp /></button>}
+       
+        <h1 style={{textAlign:'center', margin:'2% 0'}}> <FcGlobe style={{marginBottom:'10px'}}/> All Countries</h1>
 
-          <div> 
-            <input className="form-control form-control-sm" type="text" aria-label=".form-control-sm example"  placeholder="Search for country" value={searchName}  onChange={(e) => setSearchName(e.target.value)} style={{marginLeft:'30%', width:'40%'}} />
+        <div> 
+            <input 
+            className="form-control form-control-sm" 
+            type="text" aria-label=".form-control-sm example"  
+            placeholder="Search for country" 
+            value={searchName}  
+            onChange={searchNameHandler} 
+            style={{marginLeft:'30%', width:'40%'}} /> 
+        </div>
+
+        <div className='region-dropdown'>
+            <div className='region-dropdown_control'>
+                <select onChange={filterChangeHandler}>
+                          <option value="All Region">All Region</option>
+                          <option value="Americas">America</option>
+                          <option value="Africa">Africa</option>
+                          <option value="Europe">Europe</option>
+                          <option value="Asia">Asia</option>
+                          <option value="Oceania">Oceania</option>
+                </select>
+            </div>
           </div>
 
-          {/* <FilterRegion countries={loadedCountries} selected={regionCountries} onChangeFilter={}/> */}
-          <div className='expenses-filter'>
-             <div className='expenses-filter__control'>
-                 <select onChange={filterChangeHandler}>
-                            <option value="All">All Region</option>
-                            <option value="Americas">America</option>
-                            <option value="Africa">Africa</option>
-                            <option value="Europe">Europe</option>
-                            <option value="Asia">Asia</option>
-                            <option value="Oceania">Oceania</option>
-                 </select>
-            </div>
-            </div>
-          
-        <ul>
-          
-            <CountriesList countries={search(loadedCountries)}  />
-          
+        <ul>  
+          {search(loadedCountries).length === 0 ? <p style={{textAlign:'center', fontSize:'30px', fontFamily:'cursive', marginTop:'4%', fontStyle:'oblique'}}>No data found <CgSmileSad />... </p>: <CountriesList countries={search(loadedCountries)}  /> }
         </ul>
+
     </section>
 }
 
