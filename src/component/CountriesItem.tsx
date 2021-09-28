@@ -9,14 +9,14 @@ function CountriesItem(props: any) {
     let history = useHistory();
 
     const ridirectPageHandler = () =>{
-        history.push("/detail-country", { alphaCode: props.country.alpha3Code })
+        history.push(`/detail-country?id=${props.country.alpha3Code}`, { alphaCode: props.country.alpha3Code })
     }
 
     return ( 
         <div className="card col-sm-4" style={{width: '18rem', margin:'1%'}}>
             <button onClick={ridirectPageHandler} style={{border:'none', background:'white'}}>
              <li>
-                <img src={props.country.flag} className="card-img-top img-fuid cards__item__img" alt={props.country.name} />
+                <img src="http://www.logo-designer.co/wp-content/uploads/2018/02/2018-new-lufthansa-logo-design-airplane-livery.png" className="card-img-top img-fuid cards__item__img" alt={props.country.name} />
                 <div className="card-body">
                     <h5 className="card-title" style={{textAlign:'center'}}>{props.country.name}</h5>
                     <p className="card-text"><RiGlobeFill style={{fontSize: '20px'}}/> Region: {props.country.region}</p>

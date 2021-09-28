@@ -4,12 +4,8 @@ import { FcGlobe } from 'react-icons/fc';
 import { FaArrowCircleUp } from 'react-icons/fa'
 import { CgSmileSad } from 'react-icons/cg';
 import data from '../../data/countries.json';
-
-
 import '../Countries.css';
 import '../../App.css'
-
-
 
 
 function Countries (){
@@ -21,24 +17,21 @@ function Countries (){
     const [filterParam, setFilterParam] = useState("All Region");
    
 
-  // Show button when page is scorlled upto given distance
   const toggleVisibility = () => {
-    if (window.pageYOffset > 200) {
+    if (window.pageYOffset > 200){
       setIsVisible(true);
     } else {
       setIsVisible(false);
     }
   };
 
-
-  // Set the top cordinate to 0
-  // make scrolling smooth
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
   };
+
   
 function getData() {
   const countries : any = [];
@@ -55,7 +48,6 @@ function getData() {
     setLoadedCountries(countries);
 }
   
-
 
     useEffect(() => {
         setLoading(true);
@@ -82,12 +74,11 @@ function getData() {
 
         getData();
 
-        window.addEventListener("scroll", toggleVisibility);
+          window.addEventListener("scroll", toggleVisibility);
         return () =>{
           window.removeEventListener('scroll', toggleVisibility)
         }
       }, [])
-
 
 
       function search(loadedCountries : any) {      
@@ -114,21 +105,12 @@ function getData() {
         });
       }
 
-    const filterChangeHandler = (e : any) =>{
-      setFilterParam(e.target.value);
-    
-
-    };
-
-    const searchNameHandler = (e : any) =>{
-      setSearchName(e.target.value)
-    }
     
       if(loading){
         return (
           <section className="loader"></section>
         )
-      }
+      };
   
     return <section>
         {isVisible && <button className={'onTop'} onClick={scrollToTop}><FaArrowCircleUp /></button>}
@@ -141,13 +123,13 @@ function getData() {
             type="text" aria-label=".form-control-sm example"  
             placeholder="Search for country" 
             value={searchName}  
-            onChange={searchNameHandler} 
+            onChange={ (e: any)=>{ setSearchName(e.target.value) }} 
             style={{marginLeft:'30%', width:'40%'}} /> 
         </div>
 
         <div className='region-dropdown'>
             <div className='region-dropdown_control'>
-                <select onChange={filterChangeHandler}>
+                <select onChange={(e: any)=>{ setFilterParam(e.target.value) }}>
                           <option value="All Region">All Region</option>
                           <option value="Americas">America</option>
                           <option value="Africa">Africa</option>

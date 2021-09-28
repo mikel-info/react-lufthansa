@@ -1,4 +1,3 @@
-import React from 'react'
 import CountriesItem from './CountriesItem'
 
 function CountriesList(props:any) {

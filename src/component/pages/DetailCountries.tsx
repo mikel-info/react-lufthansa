@@ -8,8 +8,6 @@ import { FcCurrencyExchange } from 'react-icons/fc';
 import { GiTwoCoins } from 'react-icons/gi';
 import data from '../../data/countries.json';
 
-import { MapContainer, TileLayer, LayersControl,Marker } from 'react-leaflet'
-
 function DetailCountries(props : any) {
     
     const history = useHistory();  
@@ -39,14 +37,11 @@ function DetailCountries(props : any) {
  
       function getData(){
             const countries : any = [];
-  
-            {data.map((item : any,index:any) =>{
+             data.map((item : any,index:any) =>{
                 if(props.location.state.alphaCode === item.alpha3Code ){
                      countries.push(item);
                }
               })
-            }
-           
           setLoadedCountries(countries);
       }
 
@@ -59,28 +54,27 @@ function DetailCountries(props : any) {
       const goBack = () =>{
         history.replace("/")
       }
-      
+
     return (
         <div className={classes.container}>
-           
             <div className="card col-sm-4" style={{width: '30rem', margin:'1%', boxShadow: 'rgb(38, 57, 77) 0px 20px 30px -10px'}}>
-                {loadedCountries.map((item : any, index:number) =>{
+                {loadedCountries.map((item : any) =>{
                     return (
                         <div>
-                            <img src={item.flag} key={item.id} className="card-img-top" alt={item.name} style={{padding: '3px', height:'20em'}}/>
+                            <img src="https://fontmeme.com/images/Lufthansa-Logo.jpg" key={item.id} className="card-img-top" alt={item.name} style={{padding: '15px', height:'20em'}}/>
                                 <div className="card-body">
-                                    <h5 className="card-title" style={{textAlign:'center', fontWeight:700}} key={item.id}>{item.name}</h5>
-                                    <p className="card-text" key={item.id}><span><GrCurrency style={{fontSize:'20px'}}/> Currency Code: </span>{item.currencies[0].code}</p>
-                                    <p className="card-text" key={item.id}><span> <FcCurrencyExchange style={{fontSize:'20px'}}/> Currency Name: </span>{item.currencies[0].name}</p>
-                                    <p className="card-text" key={item.id}><span><GiTwoCoins style={{fontSize:'20px'}}/> Currency Symbol:  </span>{item.currencies[0].symbol}</p>
-                                    <p className="card-text" key={item.id}><span>Language:  </span>{item.languages[0].nativeName}</p>
+                                    <h5 className="card-title" style={{textAlign:'center', fontWeight:700}}>{item.name}</h5>
+                                    <p className="card-text"><span><GrCurrency style={{fontSize:'20px'}}/> Currency Code: </span>{item.currencies[0].code}</p>
+                                    <p className="card-text"><span> <FcCurrencyExchange style={{fontSize:'20px'}}/> Currency Name: </span>{item.currencies[0].name}</p>
+                                    <p className="card-text"><span><GiTwoCoins style={{fontSize:'20px'}}/> Currency Symbol:  </span>{item.currencies[0].symbol}</p>
+                                    <p className="card-text"><span>Language:  </span>{item.languages[0].nativeName}</p>
                                     <p style={{textAlign:'center', marginBottom:'-3px', textDecoration:'underline'}}>Borders of the neighbors</p>
                                     
                                     <div className="p-2">
-                                      {item.borders.length == 0 ? <p style={{textAlign:'center'}}>It has no neighbors</p> : 
+                                      {item.borders.length === 0 ? <p style={{textAlign:'center'}}>It has no neighbors</p> : 
                                         <div className="d-flex justify-content-center">
                                           {item.borders.map((border : string, index : number) =>{
-                                              return <Link to={{pathname: "/detail-country", state:{alphaCode: border}}} onClick={refreshPage} style={{textDecoration:'none'}}> 
+                                              return <Link to={{pathname: `/detail-country?id=${border}`, state:{alphaCode: border}}}  onClick={refreshPage} style={{textDecoration:'none'}}> 
                                                       <div className="p-2">{border}</div>
                                                     </Link>
                                               }
@@ -96,14 +90,11 @@ function DetailCountries(props : any) {
                                         style={{ width:'90%', color:'black', fontSize: '16px', margin:'5px 0px 5px 20px'}}>
                                     Go Back <RiLogoutCircleLine style={{marginTop: '-3px'}}/> 
                                 </button>
-                                
-                                     
-                          </div>
-                               
+                            
+                          </div>      
                     )})}
             </div>  
         </div>
-        
       )
 }
 
